@@ -13,6 +13,7 @@
 #' cas2003_uas = duraz("england_ua_caswa_2001_clipped.zip")
 #' cas2003_counties = duraz("england_caswa_2001_clipped.zip")
 #' cas2003 = rbind(cas2003_counties, cas2003_uas)
+#' cas2003 = st_transform(cas2003, 4326)
 #' st_write(cas2003, "cas2003.shp")
 #' ms_msg = "mapshaper cas2003.shp -simplify dp 5% -o format=geojson cas2003.json"
 #' system.time(system(ms_msg))
@@ -25,6 +26,8 @@
 #' object.size(cas2003_vsimple)
 #' plot(cas2003_vsimple$geometry)
 #' mapview::mapview(cas2003_vsimple)
+#' devtools::use_data(cas2003, overwrite = TRUE)
+#' delete_shapefiles()
 #' }
 #'
 NULL
