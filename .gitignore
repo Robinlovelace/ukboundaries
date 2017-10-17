@@ -9,3 +9,5 @@
 *.prj
 *.shp
 *.shx
+*.cpg
+*.xml
