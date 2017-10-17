@@ -35,5 +35,6 @@ devtools::install_github("robinlovelace/ukborders")
 This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
-## basic example code
+library(ukborders)
+plot(msoa2011_vsimple)
 ```
