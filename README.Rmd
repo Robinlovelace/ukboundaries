@@ -25,7 +25,7 @@ See https://www.ons.gov.uk/methodology/geography/licences for further details.
 
 You can install ukboundaries from github with:
 
-```{r gh-installation, eval = FALSE}
+```{r gh-installation, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("robinlovelace/ukboundaries")
 ```
@@ -37,4 +37,17 @@ This is a basic example which shows you how to solve a common problem:
 ```{r example}
 library(ukboundaries)
 plot(msoa2011_vsimple)
+```
+
+## Bash code
+
+Here are a few bash commands I used to rename the package with minimal effort:
+
+```bash
+# rename - replace ukborders with ukboundaries:
+grep -rl ukborders | xargs sed -i 's/ukborders/ukboundaries/g'
+# move data already downloaded but don't 'clobber' existing files:
+mv -nv ../ukborders/* ./
+# clean repo
+git clean -f
 ```

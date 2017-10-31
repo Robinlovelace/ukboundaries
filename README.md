@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 ukboundaries
-=========
+============
 
 The goal of ukboundaries is to ease access to official geographic UK data. As some in the Free and Open Source Software for Geospatial community (FOSS4G) would say: "geo for all"!
 
@@ -27,9 +27,23 @@ library(ukboundaries)
 #> Loading required package: sf
 #> Linking to GEOS 3.5.1, GDAL 2.2.1, proj.4 4.9.2, lwgeom 2.3.3 r15473
 #> Contains National Statistics data © Crown copyright and database right2017
-#> Contains OS data © Crown copyright and database right2017
+#> Contains OS data © Crown copyright and database right, 2017
 #> See https://www.ons.gov.uk/methodology/geography/licences
 plot(msoa2011_vsimple)
 ```
 
 ![](README-example-1.png)
+
+Bash code
+---------
+
+Here are a few bash commands I used to rename the package with minimal effort:
+
+``` bash
+# rename - replace ukborders with ukboundaries:
+grep -rl ukborders | xargs sed -i 's/ukborders/ukboundaries/g'
+# move data already downloaded but don't 'clobber' existing files:
+mv -nv ../ukborders/* ./
+# clean repo
+git clean -f
+```

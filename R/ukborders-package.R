@@ -42,7 +42,7 @@ delete_shapefiles = function(path = ".") {
 .onAttach <- function(libname, pkgname) {
   msg <- paste0 ("Contains National Statistics data © Crown copyright and database right",
                  format(Sys.Date(), "%Y"),
-                 "\nContains OS data © Crown copyright and database right",
+                 "\nContains OS data © Crown copyright and database right, ",
                  format(Sys.Date(), "%Y"),
                  "\nSee https://www.ons.gov.uk/methodology/geography/licences"
                  )
