@@ -26,7 +26,7 @@
 #' object.size(cas2003_vsimple)
 #' plot(cas2003_vsimple$geometry)
 #' mapview::mapview(cas2003_vsimple)
-#' devtools::use_data(cas2003, overwrite = TRUE)
+#' devtools::use_data(cas2003_simple, overwrite = TRUE)
 #' delete_shapefiles()
 #' }
 NULL
