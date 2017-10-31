@@ -3,10 +3,10 @@
 #' @name cas2003_vsimple
 #' @aliases cas2003 cas2003_simple
 #' @examples \dontrun{
-#' u_cas_uas = "https://borders.ukdataservice.ac.uk/ukborders/easy_download/prebuilt/shape/England_ua_caswa_2001_clipped.zip"
+#' u_cas_uas = "https://borders.ukdataservice.ac.uk/ukboundaries/easy_download/prebuilt/shape/England_ua_caswa_2001_clipped.zip"
 #' cas2003_uas = duraz(u_cas_uas)
 #' plot(cas2003_uas$geometry) # not all of england is covered
-#' u_cas_counties = "https://borders.ukdataservice.ac.uk/ukborders/easy_download/prebuilt/shape/England_caswa_2001_clipped.zip"
+#' u_cas_counties = "https://borders.ukdataservice.ac.uk/ukboundaries/easy_download/prebuilt/shape/England_caswa_2001_clipped.zip"
 #' cas2003_counties = duraz(u_cas_counties)
 #' plot(cas2003_counties$geometry)
 #' # cas2003_simple = rmapshaper::ms_simplify(input = cas2003, keep = 0.05) # mishap with this...

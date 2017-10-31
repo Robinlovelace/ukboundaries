@@ -12,9 +12,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ukborders
+# ukboundaries
 
-The goal of ukborders is to ease access to official geographic UK data.
+The goal of ukboundaries is to ease access to official geographic UK data.
 As some in the Free and Open Source Software for Geospatial community (FOSS4G) would say:
 "geo for all"!
 
@@ -23,11 +23,11 @@ See https://www.ons.gov.uk/methodology/geography/licences for further details.
 
 ## Installation
 
-You can install ukborders from github with:
+You can install ukboundaries from github with:
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
-devtools::install_github("robinlovelace/ukborders")
+devtools::install_github("robinlovelace/ukboundaries")
 ```
 
 ## Example
@@ -35,6 +35,6 @@ devtools::install_github("robinlovelace/ukborders")
 This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
-library(ukborders)
+library(ukboundaries)
 plot(msoa2011_vsimple)
 ```
