@@ -2,7 +2,6 @@
 % Please edit documentation in R/data.R
 \name{lsoa2011_simple}
 \alias{lsoa2011_simple}
-\alias{msoa2011}
 \title{LSOA boundaries}
 \description{
 LSOA boundaries

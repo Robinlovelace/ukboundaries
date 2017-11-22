@@ -30,15 +30,22 @@
 #' delete_shapefiles()
 #' }
 NULL
-#' MSOA boundaries
+#' MSOA boundaries in Leeds
 #'
-#' @name msoa2011
+#' @name msoa2011_lds
 #' @examples \dontrun{
-#' u = "http://geoportal.statistics.gov.uk/datasets/826dc85fb600440889480f4d9dbb1a24_0"
+#' u = "https://borders.ukdataservice.ac.uk/ukborders/easy_download/prebuilt/shape/infuse_msoa_lyr_2011_clipped.zip"
 #' msoa2011 = duraz(u)
 #' msoa2011 = st_transform(msoa2011, 4326)
-#' plot(msoa2011$geometry)
-#' devtools::use_data(msoa2011, overwrite = TRUE)
+#' object.size(msoa2011) / 1e6 # 300+ mb
+#' cents = st_centroid(msoa2011)
+#' cents_lds = cents[leeds, ]
+#' sel = msoa2011$geo_code %in% cents_lds$geo_code
+#' msoa2011_lds = msoa2011[sel, ]
+#' object.size(msoa2011_lds) / 1e6 # 4mb
+#' mapview::mapview(msoa2011_lds)
+#' plot(msoa2011_lds$geometry)
+#' devtools::use_data(msoa2011_lds)
 #' }
 NULL
 #' MSOA boundaries very simple
@@ -105,7 +112,6 @@ NULL
 #' ed1981 = duraz(u)
 #' ed1981 = sf::st_transform(ed1981, 4326)
 #' object.size(ed1981) / 1000000 # 143 mb
-#' ed1981_simple = stplanr::mapshape(ed1981)
 #' object.size(ed1981_simple) / 1e6 #  mb
 #' ed_cents = st_centroid(ed1981_simple)
 #' ed_cents_lds = ed_cents[leeds, ]

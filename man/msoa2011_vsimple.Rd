@@ -2,10 +2,9 @@
 % Please edit documentation in R/data.R
 \name{msoa2011_vsimple}
 \alias{msoa2011_vsimple}
-\alias{msoa2011}
-\title{MSOA boundaries}
+\title{MSOA boundaries very simple}
 \description{
-MSOA boundaries
+MSOA boundaries very simple
 }
 \examples{
 \dontrun{

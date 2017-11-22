@@ -12,9 +12,7 @@ u = "https://borders.ukdataservice.ac.uk/ukborders/easy_download/prebuilt/shape/
 ed1981 = duraz(u)
 ed1981 = sf::st_transform(ed1981, 4326)
 object.size(ed1981) / 1000000 # 143 mb
-ed1981_simple = stplanr::mapshape(ed1981)
 object.size(ed1981_simple) / 1e6 #  mb
-leeds = lad2018[lad2018$lau118nm == "Leeds", ]
 ed_cents = st_centroid(ed1981_simple)
 ed_cents_lds = ed_cents[leeds, ]
 ed1981 = ed1981[ed_cents_lds, ]
