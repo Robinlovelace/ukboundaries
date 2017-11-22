@@ -32,8 +32,18 @@
 NULL
 #' MSOA boundaries
 #'
+#' @name msoa2011
+#' @examples \dontrun{
+#' u = "http://geoportal.statistics.gov.uk/datasets/826dc85fb600440889480f4d9dbb1a24_0"
+#' msoa2011 = duraz(u)
+#' msoa2011 = st_transform(msoa2011, 4326)
+#' plot(msoa2011$geometry)
+#' devtools::use_data(msoa2011, overwrite = TRUE)
+#' }
+NULL
+#' MSOA boundaries very simple
+#'
 #' @name msoa2011_vsimple
-#' @aliases msoa2011
 #' @examples \dontrun{
 #' # See http://geoportal1-ons.opendata.arcgis.com/datasets/middle-layer-super-output-areas-december-2011-super-generalised-clipped-boundaries-in-england-and-wales
 #' u = "https://opendata.arcgis.com/datasets/826dc85fb600440889480f4d9dbb1a24_3.zip?outSR=%7B%22wkid%22%3A27700%2C%22latestWkid%22%3A27700%7D"
@@ -97,11 +107,17 @@ NULL
 #' object.size(ed1981) / 1000000 # 143 mb
 #' ed1981_simple = stplanr::mapshape(ed1981)
 #' object.size(ed1981_simple) / 1e6 #  mb
-#' leeds = lad2018[lad2018$lau118nm == "Leeds", ]
 #' ed_cents = st_centroid(ed1981_simple)
 #' ed_cents_lds = ed_cents[leeds, ]
 #' ed1981 = ed1981[ed_cents_lds, ]
 #' mapview::mapview(ed1981)
 #' devtools::use_data(ed1981)
+#' }
+NULL
+#' Leeds outline
+#' @name leeds
+#' @examples \dontrun{
+#' leeds = lad2018[lad2018$lau118nm == "Leeds", ]
+#' devtools::use_data(leeds)
 #' }
 NULL
