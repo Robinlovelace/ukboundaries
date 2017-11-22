@@ -38,8 +38,9 @@ NULL
 #' # See http://geoportal1-ons.opendata.arcgis.com/datasets/middle-layer-super-output-areas-december-2011-super-generalised-clipped-boundaries-in-england-and-wales
 #' u = "https://opendata.arcgis.com/datasets/826dc85fb600440889480f4d9dbb1a24_3.zip?outSR=%7B%22wkid%22%3A27700%2C%22latestWkid%22%3A27700%7D"
 #' msoa2011_vsimple = duraz(u)
+#' msoa2011_vsimple = st_transform(msoa2011_vsimple, 4326)
 #' plot(msoa2011_vsimple$geometry)
-#' devtools::use_data(msoa2011_vsimple)
+#' devtools::use_data(msoa2011_vsimple, overwrite = TRUE)
 #' }
 NULL
 #' LSOA boundaries
