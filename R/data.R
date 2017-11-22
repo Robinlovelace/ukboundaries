@@ -46,7 +46,6 @@ NULL
 #' LSOA boundaries
 #'
 #' @name lsoa2011_simple
-#' @aliases msoa2011
 #' @examples \dontrun{
 #' # See http://geoportal1-ons.opendata.arcgis.com/
 #' u = "https://opendata.arcgis.com/datasets/da831f80764346889837c72508f046fa_2.zip?outSR=%7B%22wkid%22%3A27700%2C%22latestWkid%22%3A27700%7D"
