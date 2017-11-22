@@ -12,11 +12,12 @@ LSOA boundaries
 # See http://geoportal1-ons.opendata.arcgis.com/
 u = "https://opendata.arcgis.com/datasets/da831f80764346889837c72508f046fa_2.zip?outSR=\%7B\%22wkid\%22\%3A27700\%2C\%22latestWkid\%22\%3A27700\%7D"
 lsoa2011 = duraz(u)
+lsoa2011 = st_transform(lsoa2011, 4326)
 object.size(lsoa2011) / 1000000 # 63 mb
 lsoa2011_simple = stplanr::mapshape(lsoa2011, percent = 20)
 object.size(lsoa2011_simple) / 1e6 # 40 mb
 plot(lsoa2011$geometry[1:3])
 plot(lsoa2011_simple$geometry[1:3], add = TRUE)
-devtools::use_data(lsoa2011_simple)
+devtools::use_data(lsoa2011_simple, overwrite = TRUE)
 }
 }
