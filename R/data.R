@@ -58,3 +58,15 @@ NULL
 #' devtools::use_data(lsoa2011_simple)
 #' }
 NULL
+#' lad boundaries
+#'
+#' @name lad2016_simple
+#' @examples \dontrun{
+#' # See http://geoportal1-ons.opendata.arcgis.com/
+#' u = "http://esriuktechnicalsupportopendata-techsupportuk.opendata.arcgis.com/datasets/686603e943f948acaa13fb5d2b0f1275_4.zip"
+#' lad2016_simple = duraz(u)
+#' object.size(lad2016_simple) / 1000000 # 1 mb
+#' plot(lad2016_simple)
+#' devtools::use_data(lad2016_simple)
+#' }
+NULL
