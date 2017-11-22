@@ -2,9 +2,9 @@
 % Please edit documentation in R/data.R
 \name{lad2018}
 \alias{lad2018}
-\title{lad boundaries}
+\title{Local authority 2018 boundaries}
 \description{
-lad boundaries
+Local authority 2018 boundaries
 }
 \examples{
 \dontrun{

@@ -70,7 +70,7 @@ NULL
 #' devtools::use_data(lad2016_simple)
 #' }
 NULL
-#' lad boundaries
+#' Local authority 2018 boundaries
 #'
 #' @name lad2018
 #' @examples \dontrun{
@@ -82,5 +82,25 @@ NULL
 #' object.size(lad2018) / 1000000 # 1 mb
 #' mapview::mapview(lad2018)
 #' devtools::use_data(lad2018)
+#' }
+NULL
+#' Enumeration Districts 1981
+#'
+#' Saved for Leeds due to size constraints
+#'
+#' @name ed1981
+#' @examples \dontrun{
+#' u = "https://borders.ukdataservice.ac.uk/ukborders/easy_download/prebuilt/shape/England_ed_1981.zip"
+#' ed1981 = duraz(u)
+#' ed1981 = sf::st_transform(ed1981, 4326)
+#' object.size(ed1981) / 1000000 # 143 mb
+#' ed1981_simple = stplanr::mapshape(ed1981)
+#' object.size(ed1981_simple) / 1e6 #  mb
+#' leeds = lad2018[lad2018$lau118nm == "Leeds", ]
+#' ed_cents = st_centroid(ed1981_simple)
+#' ed_cents_lds = ed_cents[leeds, ]
+#' ed1981 = ed1981[ed_cents_lds, ]
+#' mapview::mapview(ed1981)
+#' devtools::use_data(ed1981)
 #' }
 NULL
