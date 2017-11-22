@@ -70,3 +70,17 @@ NULL
 #' devtools::use_data(lad2016_simple)
 #' }
 NULL
+#' lad boundaries
+#'
+#' @name lad2018
+#' @examples \dontrun{
+#' u = "http://esriuktechnicalsupportopendata-techsupportuk.opendata.arcgis.com/datasets/3dc07a60f46b4e01ab0ec8ba71c7a879_1.zip"
+#' lad2018 = duraz(u)
+#' unzip("zipped_shapefile.zip")
+#' lad2018 = sf::st_read("Local_Administrative_Units_Level_1_January_2018_Full_Extent_Boundaries_in_United_Kingdom.shp")
+#' lad2018 = stplanr::mapshape(lad2018, percent = 5)
+#' object.size(lad2018) / 1000000 # 1 mb
+#' mapview::mapview(lad2018)
+#' devtools::use_data(lad2018)
+#' }
+NULL
