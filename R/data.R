@@ -60,7 +60,25 @@ NULL
 #' devtools::use_data(msoa2011_vsimple, overwrite = TRUE)
 #' }
 NULL
-#' LSOA boundaries
+#' LSOA boundaries in Leeds
+#'
+#' @name lsoa2011_lds
+#' @examples \dontrun{
+#' # See http://geoportal1-ons.opendata.arcgis.com/
+#' u = "https://borders.ukdataservice.ac.uk/ukborders/easy_download/prebuilt/shape/infuse_lsoa_lyr_2011_clipped.zip"
+#' lsoa2011 = duraz(u)
+#' lsoa2011 = st_transform(lsoa2011, 4326)
+#' object.size(lsoa2011) / 1000000 # 660 mb
+#' cents = st_centroid(lsoa2011)
+#' cents_lds = cents[leeds, ]
+#' sel = lsoa2011$geo_code %in% cents_lds$geo_code
+#' lsoa2011_lds = lsoa2011[sel, ]
+#' object.size(lsoa2011_lds) / 1e6 # 12.5 mb
+#' plot(lsoa2011$geometry[1])
+#' devtools::use_data(lsoa2011_lds, overwrite = TRUE)
+#' }
+NULL
+#' LSOA boundaries - simplified
 #'
 #' @name lsoa2011_simple
 #' @examples \dontrun{

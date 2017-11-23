@@ -2,9 +2,9 @@
 % Please edit documentation in R/data.R
 \name{lsoa2011_simple}
 \alias{lsoa2011_simple}
-\title{LSOA boundaries}
+\title{LSOA boundaries - simplified}
 \description{
-LSOA boundaries
+LSOA boundaries - simplified
 }
 \examples{
 \dontrun{
