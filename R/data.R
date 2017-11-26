@@ -94,6 +94,17 @@ NULL
 #' devtools::use_data(lsoa2011_simple, overwrite = TRUE)
 #' }
 NULL
+#' lad boundaries - 2011
+#'
+#' @name lad2016_simple
+#' @examples \dontrun{
+#' u = "https://census.edina.ac.uk/ukborders/easy_download/prebuilt/shape/England_lad_2011_gen_clipped.zip"
+#' lad2011_simple = duraz(u)
+#' object.size(lad2016_simple) / 1000000 # 1 mb
+#' plot(lad2016_simple)
+#' devtools::use_data(lad2016_simple)
+#' }
+NULL
 #' lad boundaries
 #'
 #' @name lad2016_simple
