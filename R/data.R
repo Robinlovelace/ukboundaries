@@ -156,3 +156,16 @@ NULL
 #' devtools::use_data(leeds)
 #' }
 NULL
+#' Travel to work areas
+#'
+#' See [ons.gov.uk](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/articles/traveltoworkareaanalysisingreatbritain/2016) for details.
+#'
+#' @name ttwa
+#' @examples \dontrun{
+#' u = "https://opendata.arcgis.com/datasets/d3062ec5f03b49a7be631d71586cac8c_4.zip?outSR=%7B%22wkid%22%3A27700%2C%22latestWkid%22%3A27700%7D"
+#' ttwa_simple = duraz(u)
+#' ttwa_simple = st_transform(ttwa_simple, 4326)
+#' mapview::mapview(ttwa_simple)
+#' devtools::use_data(ttwa_simple)
+#' }
+NULL
