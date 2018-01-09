@@ -1,5 +1,31 @@
-#' CAS wards from 2003
+#' Output area centroids
 #'
+#' See https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datalist?sortBy=release_date&query=output+area&filter=datasets&fromDateDay=&fromDateMonth=&fromDateYear=&toDateDay=&toDateMonth=&toDateYear=
+#'
+#' @name oas_cents
+#' @aliases oas_cents_lds oas_sw
+#' @examples \dontrun{
+#' u_oas_cents = "https://opendata.arcgis.com/datasets/ba64f679c85f4563bfff7fad79ae57b1_0.zip?outSR=%7B%22wkid%22%3A27700%2C%22latestWkid%22%3A27700%7D"
+#' u_oas_cents = duraz(u_oas_cents)
+#' plot(u_oas_cents$geometry) # not all of england is covered
+#' object.size(u_oas_cents)
+#' u_pop = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/censusoutputareaestimatesinthesouthwestregionofengland/mid2016sape19dt10g/sape19dt10gmid2016coaunformattedsyoaestimatessouthwest.zip"
+#' download.file(u_pop, "sape19dt10gmid2016coaunformattedsyoaestimatessouthwest.zip")
+#' unzip("sape19dt10gmid2016coaunformattedsyoaestimatessouthwest.zip")
+#' d = readxl::read_excel("SAPE19DT10g-mid-2016-coa-unformatted-syoa-estimates-south-west.xls", sheet = 4, skip = 3)
+#' library(dplyr)
+#' d = select(d, oa11cd = OA11CD, `All Ages`)
+#' oas_sw = u_oas_cents[u_oas_cents$oa11cd %in% d$oa11cd, ]
+#' plot(oas_sw)
+#' oas_sw = left_join(oas_sw, d)
+#' oas_sw = st_transform(oas_sw, 4326)
+#' bristol = osmdata::getbb(place_name = "Bristol", format_out = "sf_polygon")
+#' oas_sw = oas_sw[bristol, ]
+#' plot(oas_sw)
+#' devtools::use_data(oas_sw, overwrite = TRUE)
+#' delete_shapefiles()
+#' }
+NULL
 #' @name cas2003_vsimple
 #' @aliases cas2003 cas2003_simple
 #' @examples \dontrun{
