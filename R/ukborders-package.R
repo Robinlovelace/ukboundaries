@@ -47,4 +47,14 @@ delete_shapefiles = function(path = ".") {
                  "\nSee https://www.ons.gov.uk/methodology/geography/licences"
                  )
   packageStartupMessage (msg)
+
+}
+
+.onLoad <- function(libname, pkgname)
+{
+  print("loading data")
+  # load on startup
+  data_sources <<- read.csv("./data/sources.csv", stringsAsFactors = F)
+  # TODO on startup
+  code_lookup <<- read.csv("./data/oa2011codes.csv", stringsAsFactors = F)
 }

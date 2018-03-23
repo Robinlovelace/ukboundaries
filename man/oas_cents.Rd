@@ -6,7 +6,7 @@
 \alias{oas_sw}
 \title{Output area centroids}
 \description{
-Output area centroids
+See https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datalist?sortBy=release_date&query=output+area&filter=datasets&fromDateDay=&fromDateMonth=&fromDateYear=&toDateDay=&toDateMonth=&toDateYear=
 }
 \examples{
 \dontrun{

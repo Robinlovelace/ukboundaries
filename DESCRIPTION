@@ -10,4 +10,5 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 Depends: sf
+Suggests: testthat
 RoxygenNote: 6.0.1
