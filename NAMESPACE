@@ -2,5 +2,6 @@
 
 export(duraz)
 export(getareatype)
+export(getfullspatialdata)
 export(getspatialdata)
 export(getsubgeographies)

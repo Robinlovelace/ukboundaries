@@ -43,13 +43,13 @@ test_that("find all OA11s in LAD", {
   expect_true(length(oas)==31)
 })
 
-# test_that("find all LSOA11s in LAD and get centroids", {
-#   lsoas = getsubgeographies("E09000001", "LSOA11")
-#   sdf = getspatialdata(lsoas, "Centroids", "PopulationWeighted")
-#   expect_true(nrow(sdf)==29)
-# })
-
 test_that("find all LSOA11s in LAD and get centroids", {
+  lsoas = getsubgeographies("E09000001", "LSOA11")
+  sdf = getspatialdata(lsoas, "Centroids", "PopulationWeighted")
+  expect_true(nrow(sdf)==6)
+})
+
+test_that("find all MSOA11s in LAD and get centroids", {
   msoas = getsubgeographies("E09000001", "MSOA11")
   sdf = getspatialdata(msoas, "Centroids", "PopulationWeighted")
   expect_true(nrow(sdf)==1)
