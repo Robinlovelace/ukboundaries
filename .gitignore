@@ -11,3 +11,4 @@
 *.shx
 *.cpg
 *.xml
+data/custom_data_sources.csv

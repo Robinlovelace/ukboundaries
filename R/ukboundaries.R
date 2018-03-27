@@ -28,7 +28,9 @@ add_datasource <- function(coverage, geography, type, detail, idcolumn, uri) {
   # TODO some validation of inputs?
   # cols are: "Coverage"  "Geography" "Type"      "Detail"    "IdColumn"  "URI"
   custom[nrow(custom)+1,] = list(coverage, geography, type, detail, idcolumn, uri)
-  write.csv(custom, "./data/custom_data_sources.csv", row.names = F)
+  write.table(custom, "./data/custom_data_sources.csv", sep=";", row.names = F)
+  # TODO find a way of not having to reload...
+  print("Reload package to update source database")
 }
 
 #' just get everything
@@ -37,25 +39,28 @@ getfullspatialdata <- function(area_type, type, subtype) {
 
   # TODO validate type and subtype
 
-  cachedir = paste0("./cache/", area_type, type, subtype)
+  uri=data_sources[data_sources$Type==type & data_sources$Geography==area_type & data_sources$Detail==subtype,]$URI
 
-  idcolumn = data_sources[data_sources$Type==type
-                        & data_sources$Geography==area_type
-                        & data_sources$Detail==subtype,]$IdColumn
+  # treat as file is URI doesnt begin with http:// or https://
+  if (!grepl("^http[s]?://", uri)) {
+    stopifnot(file.exists(uri), "local (custom) shapefile not found")
+    shapefile = uri
+  } else {
+    cachedir = paste0("./cache/", area_type, type, subtype)
+    shapefile = paste0(cachedir, "/", list.files(path=cachedir, pattern="*.shp"))
 
-  shapefile = list.files(path=cachedir, pattern="*.shp")
-  if (length(shapefile) == 0) {
-    # TODO check URL exists
-    url=data_sources[data_sources$Type==type & data_sources$Geography==area_type & data_sources$Detail==subtype,]$URI
-    print(paste("Downloading and cacheing", cachedir, "from", url))
-    if (!dir.exists(cachedir)) {
-      dir.create(cachedir)
+    if (length(shapefile) == 0) {
+      # TODO check URL exists
+      print(paste("Downloading and cacheing", cachedir, "from", uri))
+      if (!dir.exists(cachedir)) {
+        dir.create(cachedir)
+      }
+      zipfile = paste0(cachedir, "/download.zip")
+      download.file(uri, zipfile)
+      unzip(zipfile, exdir=cachedir)
     }
-    zipfile = paste0(cachedir, "/download.zip")
-    download.file(url, zipfile)
-    unzip(zipfile, exdir=cachedir)
   }
-  sdf_all = st_read(paste0(cachedir, "/", shapefile), stringsAsFactors = F)
+  sdf_all = st_read(shapefile, stringsAsFactors = F)
 
   return(sdf_all)
 }
@@ -65,27 +70,9 @@ getfullspatialdata <- function(area_type, type, subtype) {
 getspatialdata <- function(area_codes, type, subtype) {
 
   area_type = getareatype(area_codes)
-
-  # TODO validate type and subtype
-
-  cachedir = paste0("./cache/", area_type, type, subtype)
+  sdf_all = getfullspatialdata(area_type, type, subtype)
 
   idcolumn = data_sources[data_sources$Type==type & data_sources$Geography==area_type & data_sources$Detail==subtype,]$IdColumn
-
-  shapefile = list.files(path=cachedir, pattern="*.shp")
-  if (length(shapefile) == 0) {
-    # TODO check URL exists
-    url=data_sources[data_sources$Type==type & data_sources$Geography==area_type & data_sources$Detail==subtype,]$URI
-    print(paste("Downloading and cacheing", cachedir, "from", url))
-    if (!dir.exists(cachedir)) {
-      dir.create(cachedir)
-    }
-    zipfile = paste0(cachedir, "/download.zip")
-    download.file(url, zipfile)
-    unzip(zipfile, exdir=cachedir)
-  }
-  sdf_all = st_read(paste0(cachedir, "/", shapefile), stringsAsFactors = F)
-
   # check id column exists
   if (!idcolumn %in% names(sdf_all)) {
     stop(paste0(idcolumn, " column is not in dataset, check data source definitions"))
