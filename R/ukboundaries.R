@@ -1,5 +1,35 @@
 # ukboundaries.R
 
+.onLoad <- function(libname, pkgname)
+{
+  # TODO user-customised data sources...
+
+  # TODO sort out package data properly - needs to be
+  # - human readable (i.e. csv) and
+  # - not have the frankly f**king idiotic stringsAsFactors
+
+  # need some way of optionally loading the data
+  #custom_data_sources=default_data_sources[default_data_sources$Geography=="invalid",]
+
+  #all_data_sources=rbind(custom_data_sources, default_data_sources)
+  #data(default_data_sources, custom_data_sources, census11_codes)
+  census11_codes <<- read.csv("./data/census11_codes.csv", sep=";", stringsAsFactors = F)
+
+  # load in source data, custom first
+  data_sources <<- read.csv("./data/custom_data_sources.csv", sep=";", stringsAsFactors = F)
+  data_sources <<- rbind(data_sources, read.csv("./data/default_data_sources.csv", sep=";", stringsAsFactors = F))
+}
+
+
+#' add custom data source
+#' @export
+add_datasource <- function(coverage, geography, type, detail, idcolumn, uri) {
+  custom = read.csv("./data/custom_data_sources.csv", sep=";", stringsAsFactors = F)
+  # TODO some validation of inputs?
+  # cols are: "Coverage"  "Geography" "Type"      "Detail"    "IdColumn"  "URI"
+  custom[nrow(custom)+1,] = list(coverage, geography, type, detail, idcolumn, uri)
+  write.csv(custom, "./data/custom_data_sources.csv", row.names = F)
+}
 
 #' just get everything
 #' @export
@@ -9,12 +39,14 @@ getfullspatialdata <- function(area_type, type, subtype) {
 
   cachedir = paste0("./cache/", area_type, type, subtype)
 
-  idcolumn = data_sources[data_sources$Type==type & data_sources$Geography==area_type & data_sources$Detail==subtype,]$IdColumn
+  idcolumn = data_sources[data_sources$Type==type
+                        & data_sources$Geography==area_type
+                        & data_sources$Detail==subtype,]$IdColumn
 
   shapefile = list.files(path=cachedir, pattern="*.shp")
   if (length(shapefile) == 0) {
     # TODO check URL exists
-    url=data_sources[data_sources$Type==type & data_sources$Geography==area_type & data_sources$Detail==subtype,]$URL
+    url=data_sources[data_sources$Type==type & data_sources$Geography==area_type & data_sources$Detail==subtype,]$URI
     print(paste("Downloading and cacheing", cachedir, "from", url))
     if (!dir.exists(cachedir)) {
       dir.create(cachedir)
@@ -43,7 +75,7 @@ getspatialdata <- function(area_codes, type, subtype) {
   shapefile = list.files(path=cachedir, pattern="*.shp")
   if (length(shapefile) == 0) {
     # TODO check URL exists
-    url=data_sources[data_sources$Type==type & data_sources$Geography==area_type & data_sources$Detail==subtype,]$URL
+    url=data_sources[data_sources$Type==type & data_sources$Geography==area_type & data_sources$Detail==subtype,]$URI
     print(paste("Downloading and cacheing", cachedir, "from", url))
     if (!dir.exists(cachedir)) {
       dir.create(cachedir)
@@ -68,8 +100,9 @@ getspatialdata <- function(area_codes, type, subtype) {
 getsubgeographies <- function(area_code, area_type) {
   uber_type = getareatype(area_code)
 
+  # TODO non-census codes
   # TODO use %in% for multiples codes
-  return(unique(code_lookup[code_lookup[[uber_type]]==area_code,][[area_type]]))
+  return(unique(census11_codes[census11_codes[[uber_type]]==area_code,][[area_type]]))
 }
 
 # TODO lookup between different geogs
