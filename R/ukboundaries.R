@@ -18,6 +18,12 @@
   # load in source data, custom first
   data_sources <<- read.csv("./data/custom_data_sources.csv", sep=";", stringsAsFactors = F)
   data_sources <<- rbind(data_sources, read.csv("./data/default_data_sources.csv", sep=";", stringsAsFactors = F))
+
+  # ensure cache directory exists
+  if (!dir.exists("./cache")) {
+    dir.create("./cache")
+  }
+
 }
 
 
@@ -38,18 +44,24 @@ add_datasource <- function(coverage, geography, type, detail, idcolumn, uri) {
 getfullspatialdata <- function(area_type, type, subtype) {
 
   # TODO validate type and subtype
+  query=data_sources[data_sources$Type==type & data_sources$Geography==area_type & data_sources$Detail==subtype,]
 
-  uri=data_sources[data_sources$Type==type & data_sources$Geography==area_type & data_sources$Detail==subtype,]$URI
+  if (!nrow(query)) {
+    stop(paste0("no data source found for", area_type, type, subtype))
+  }
 
-  # treat as file is URI doesnt begin with http:// or https://
+  # TODO warn if multiple rows found
+  uri = query$URI[1]
+
+  # treat as file if URI doesnt begin with http:// or https://
   if (!grepl("^http[s]?://", uri)) {
     stopifnot(file.exists(uri), "local (custom) shapefile not found")
     shapefile = uri
   } else {
     cachedir = paste0("./cache/", area_type, type, subtype)
-    shapefile = paste0(cachedir, "/", list.files(path=cachedir, pattern="*.shp"))
+    shp_files = list.files(path=cachedir, pattern="*.shp")
 
-    if (length(shapefile) == 0) {
+    if (length(shp_files) == 0) {
       # TODO check URL exists
       print(paste("Downloading and cacheing", cachedir, "from", uri))
       if (!dir.exists(cachedir)) {
@@ -58,7 +70,13 @@ getfullspatialdata <- function(area_type, type, subtype) {
       zipfile = paste0(cachedir, "/download.zip")
       download.file(uri, zipfile)
       unzip(zipfile, exdir=cachedir)
+
+      # Now try again
+      return(getfullspatialdata(area_type, type, subtype))
     }
+    # TODO warn if multiple shapefiles found
+
+    shapefile = paste0(cachedir, "/", shp_files[1])
   }
   sdf_all = st_read(shapefile, stringsAsFactors = F)
 
