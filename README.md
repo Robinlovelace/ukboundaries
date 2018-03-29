@@ -17,8 +17,8 @@ You can install ukboundaries from github with:
 devtools::install_github("robinlovelace/ukboundaries")
 ```
 
-Example
--------
+Examples
+--------
 
 This is a basic example which shows you how to solve a common problem:
 
@@ -34,16 +34,13 @@ plot(msoa2011_vsimple)
 
 ![](README-example-1.png)
 
-Bash code
----------
-
-Here are a few bash commands I used to rename the package with minimal effort:
-
-``` bash
-# rename - replace ukborders with ukboundaries:
-grep -rl ukborders | xargs sed -i 's/ukborders/ukboundaries/g'
-# move data already downloaded but don't 'clobber' existing files:
-mv -nv ../ukborders/* ./
-# clean repo
-git clean -f
+This example maps the 2011 output areas in the City of London
 ```
+ladcode = "E09000001" # City of London
+oacodes = getsubgeographies(ladcode, "OA11")
+# Get the OA polygons and draw them
+sdf = getspatialdata(oacodes, "Boundaries", "GeneralisedClipped")
+leaflet() %>% addProviderTiles(providers$OpenStreetMap.BlackAndWhite, options=tileOptions(opacity=.7)) %>% addPolygons(data=sdf$geometry, weight=1)
+```
+![aaa](example2.png)
+
