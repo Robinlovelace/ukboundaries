@@ -15,8 +15,7 @@ package_env <- new.env()
 
   #all_data_sources=rbind(custom_data_sources, default_data_sources)
   #data(default_data_sources, custom_data_sources, census11_codes)
-  # if i remove this line census11_codes doesnt get loaded.
-  census11_codes <<- read.csv("./data/census11_codes.csv", sep=";", stringsAsFactors = F)
+  #census11_codes <<- read.csv("./data/census11_codes.csv", sep=";", stringsAsFactors = F)
 
   # load in source data, custom first
   data_sources <<- read.csv("./data/custom_data_sources.csv", sep=";", stringsAsFactors = F)
