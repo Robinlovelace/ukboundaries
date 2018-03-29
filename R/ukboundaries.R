@@ -1,5 +1,7 @@
 # ukboundaries.R
 
+package_env <- new.env()
+
 .onLoad <- function(libname, pkgname)
 {
   # TODO user-customised data sources...
@@ -13,17 +15,29 @@
 
   #all_data_sources=rbind(custom_data_sources, default_data_sources)
   #data(default_data_sources, custom_data_sources, census11_codes)
+  # if i remove this line census11_codes doesnt get loaded.
   census11_codes <<- read.csv("./data/census11_codes.csv", sep=";", stringsAsFactors = F)
 
   # load in source data, custom first
   data_sources <<- read.csv("./data/custom_data_sources.csv", sep=";", stringsAsFactors = F)
   data_sources <<- rbind(data_sources, read.csv("./data/default_data_sources.csv", sep=";", stringsAsFactors = F))
 
-  # ensure cache directory exists
-  if (!dir.exists("./cache")) {
-    dir.create("./cache")
-  }
+  default_cache <- "~/.ukboundaries/cache"
+  assign("cache_dir", default_cache, envir=package_env)
+  startup_msg <- paste ("Using default data cache directory", default_cache,
+                        "\nUse cache_dir() to change it.")
+  packageStartupMessage(startup_msg)
+}
 
+#' Gets or sets the cache directory for data downloads
+#' @param cachedir (optional) location of cache directory (if omitted just returns the current value)
+#' @return path to the current cache directory
+#' @export
+cache_dir <- function(cachedir = NA) {
+  if (!is.na(cachedir)) {
+    assign("cache_dir", cachedir, envir=package_env)
+  }
+  return(get("cache_dir", envir=package_env))
 }
 
 
@@ -58,25 +72,26 @@ getfullspatialdata <- function(area_type, type, subtype) {
     stopifnot(file.exists(uri), "local (custom) shapefile not found")
     shapefile = uri
   } else {
-    cachedir = paste0("./cache/", area_type, type, subtype)
-    shp_files = list.files(path=cachedir, pattern="*.shp")
+    cachedir <- get("cache_dir", envir=package_env)
+    cachesubdir <- paste0(cachedir, "/", area_type, type, subtype)
+    shp_files <- list.files(path=cachesubdir, pattern="*.shp")
 
     if (length(shp_files) == 0) {
       # TODO check URL exists
-      print(paste("Downloading and cacheing", cachedir, "from", uri))
-      if (!dir.exists(cachedir)) {
-        dir.create(cachedir)
+      print(paste("Downloading and cacheing", cachesubdir, "from", uri))
+      if (!dir.exists(cachesubdir)) {
+        dir.create(cachesubdir)
       }
-      zipfile = paste0(cachedir, "/download.zip")
+      zipfile <- paste0(cachesubdir, "/download.zip")
       download.file(uri, zipfile)
-      unzip(zipfile, exdir=cachedir)
+      unzip(zipfile, exdir=cachesubdir)
 
       # Now try again
       return(getfullspatialdata(area_type, type, subtype))
     }
     # TODO warn if multiple shapefiles found
 
-    shapefile = paste0(cachedir, "/", shp_files[1])
+    shapefile = paste0(cachesubdir, "/", shp_files[1])
   }
   sdf_all = st_read(shapefile, stringsAsFactors = F)
 
