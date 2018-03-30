@@ -42,5 +42,36 @@ oacodes = getsubgeographies(ladcode, "OA11")
 sdf = getspatialdata(oacodes, "Boundaries", "GeneralisedClipped")
 leaflet() %>% addProviderTiles(providers$OpenStreetMap.BlackAndWhite, options=tileOptions(opacity=.7)) %>% addPolygons(data=sdf$geometry, weight=1)
 ```
-![aaa](example2.png)
+![](example2.png)
 
+Here we plot the LSOAs that have population-weighted centroids in a particular ward:
+
+```
+library(ukboundaries)
+library(sf)
+library(leaflet)
+
+# Get all the 2011 LSOAs that intersect* with the Ward containing the University of Leeds
+# (* population-weighted centroid is within the ward)
+wd16=getfullspatialdata("WD16","Boundaries","FullClipped")
+ward=wd16[wd16$wd16nm=="Hyde Park and Woodhouse",] 
+
+# Get all the LSOA codes in Leeds
+ladcode = "E08000035" # 
+lsoacodes = getsubgeographies(ladcode, "LSOA11")
+# Get the LSOA centroids
+all_lsoa11=getspatialdata(lsoacodes, "Centroids", "PopulationWeighted")
+
+# Use sf to detemine which intersect the ward
+intersects=st_intersects(all_lsoa11$geometry, ward$geometry, sparse=F)
+centroids = all_lsoa11[intersects,]
+
+# now get polygons for the intersecting LSOAs
+polygons = getspatialdata(centroids$lsoa11cd, "Boundaries", "GeneralisedClipped")
+
+# and plot them overlaid on the ward
+leaflet() %>% addProviderTiles(providers$OpenStreetMap.BlackAndWhite, options=tileOptions(opacity=.7)) %>% 
+              addPolygons(data=cheap$geometry, weight=1, color="red") %>% 
+              addPolygons(data=polygons$geometry, weight=1, color="green")
+```
+![](example3.png)
