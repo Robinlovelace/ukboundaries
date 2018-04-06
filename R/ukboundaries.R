@@ -6,10 +6,6 @@ package_env <- new.env()
 {
   # TODO user-customised data sources...
 
-  # TODO sort out package data properly - needs to be
-  # - human readable (i.e. csv) and
-  # - not have the frankly f**king idiotic stringsAsFactors
-
   # need some way of optionally loading the data
   #custom_data_sources=default_data_sources[default_data_sources$Geography=="invalid",]
 
