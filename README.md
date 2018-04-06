@@ -17,8 +17,8 @@ You can install ukboundaries from github with:
 devtools::install_github("robinlovelace/ukboundaries")
 ```
 
-Example
--------
+Examples
+--------
 
 This is a basic example which shows you how to solve a common problem:
 
@@ -34,16 +34,44 @@ plot(msoa2011_vsimple)
 
 ![](README-example-1.png)
 
-Bash code
----------
-
-Here are a few bash commands I used to rename the package with minimal effort:
-
-``` bash
-# rename - replace ukborders with ukboundaries:
-grep -rl ukborders | xargs sed -i 's/ukborders/ukboundaries/g'
-# move data already downloaded but don't 'clobber' existing files:
-mv -nv ../ukborders/* ./
-# clean repo
-git clean -f
+This example maps the 2011 output areas in the City of London
 ```
+ladcode = "E09000001" # City of London
+oacodes = getsubgeographies(ladcode, "OA11")
+# Get the OA polygons and draw them
+sdf = getspatialdata(oacodes, "Boundaries", "GeneralisedClipped")
+leaflet() %>% addProviderTiles(providers$OpenStreetMap.BlackAndWhite, options=tileOptions(opacity=.7)) %>% addPolygons(data=sdf$geometry, weight=1)
+```
+![](example2.png)
+
+Here we plot the LSOAs that have population-weighted centroids in a particular ward:
+
+```
+library(ukboundaries)
+library(sf)
+library(leaflet)
+
+# Get all the 2011 LSOAs that intersect* with the Ward containing the University of Leeds
+# (* population-weighted centroid is within the ward)
+wd16=getfullspatialdata("WD16","Boundaries","FullClipped")
+ward=wd16[wd16$wd16nm=="Hyde Park and Woodhouse",] 
+
+# Get all the LSOA codes in Leeds
+ladcode = "E08000035" # 
+lsoacodes = getsubgeographies(ladcode, "LSOA11")
+# Get the LSOA centroids
+all_lsoa11=getspatialdata(lsoacodes, "Centroids", "PopulationWeighted")
+
+# Use sf to detemine which intersect the ward
+intersects=st_intersects(all_lsoa11$geometry, ward$geometry, sparse=F)
+centroids = all_lsoa11[intersects,]
+
+# now get polygons for the intersecting LSOAs
+polygons = getspatialdata(centroids$lsoa11cd, "Boundaries", "GeneralisedClipped")
+
+# and plot them overlaid on the ward
+leaflet() %>% addProviderTiles(providers$OpenStreetMap.BlackAndWhite, options=tileOptions(opacity=.7)) %>% 
+              addPolygons(data=cheap$geometry, weight=1, color="red") %>% 
+              addPolygons(data=polygons$geometry, weight=1, color="green")
+```
+![](example3.png)

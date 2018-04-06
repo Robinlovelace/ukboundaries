@@ -47,4 +47,6 @@ delete_shapefiles = function(path = ".") {
                  "\nSee https://www.ons.gov.uk/methodology/geography/licences"
                  )
   packageStartupMessage (msg)
+
 }
+

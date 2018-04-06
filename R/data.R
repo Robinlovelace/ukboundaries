@@ -195,3 +195,16 @@ NULL
 #' devtools::use_data(ttwa_simple)
 #' }
 NULL
+
+#' 2011 census hierarchical geographies
+#' @name census11_codes
+#' @examples \dontrun{
+#'   # Get all OA codes within the City of London
+#'   ladcode = "E09000001" # City of London
+#'   oacodes = getsubgeographies(ladcode, "OA11")
+#'   # Get the OA polygons and draw them
+#'   sdf = getspatialdata(oacodes, "Boundaries", "GeneralisedClipped")
+#'   plot(sdf$geometry)
+#' }
+NULL
+
