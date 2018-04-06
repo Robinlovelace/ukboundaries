@@ -18,8 +18,8 @@ package_env <- new.env()
   #census11_codes <<- read.csv("./data/census11_codes.csv", sep=";", stringsAsFactors = F)
 
   # load in source data, custom first
-  data_sources <<- read.csv("./data/custom_data_sources.csv", sep=";", stringsAsFactors = F)
-  data_sources <<- rbind(data_sources, read.csv("./data/default_data_sources.csv", sep=";", stringsAsFactors = F))
+  f = system.file("extdata", "data_sources.csv", package = "ukboundaries")
+  data_sources <<- readr::read_csv(f)
 
   default_cache <- "~/.ukboundaries/cache"
   assign("cache_dir", default_cache, envir=package_env)
@@ -43,11 +43,11 @@ cache_dir <- function(cachedir = NA) {
 #' add custom data source
 #' @export
 add_datasource <- function(coverage, geography, type, detail, idcolumn, uri) {
-  custom = read.csv("./data/custom_data_sources.csv", sep=";", stringsAsFactors = F)
+  custom = read.csv("./data-raw/custom_data_sources.csv", sep=";", stringsAsFactors = F)
   # TODO some validation of inputs?
   # cols are: "Coverage"  "Geography" "Type"      "Detail"    "IdColumn"  "URI"
   custom[nrow(custom)+1,] = list(coverage, geography, type, detail, idcolumn, uri)
-  write.table(custom, "./data/custom_data_sources.csv", sep=";", row.names = F)
+  write.table(custom, "./data-raw/custom_data_sources.csv", sep=";", row.names = F)
   # TODO find a way of not having to reload...
   print("Reload package to update source database")
 }
