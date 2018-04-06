@@ -2,8 +2,7 @@
 
 package_env <- new.env()
 
-.onLoad <- function(libname, pkgname)
-{
+.onLoad <- function(libname, pkgname) {
   # TODO user-customised data sources...
 
   # need some way of optionally loading the data
@@ -15,7 +14,14 @@ package_env <- new.env()
 
   # load in source data, custom first
   f = system.file("extdata", "data_sources.csv", package = "ukboundaries")
-  data_sources <<- readr::read_csv(f)
+  data_sources <<- readr::read_csv(f, col_types = cols(
+    Coverage = col_character(),
+    Geography = col_character(),
+    Type = col_character(),
+    Detail = col_character(),
+    IdColumn = col_character(),
+    URI = col_character()
+  ))
 
   default_cache <- "~/.ukboundaries/cache"
   assign("cache_dir", default_cache, envir=package_env)
