@@ -30,7 +30,23 @@ You can install ukboundaries from github with:
 
 ```{r gh-installation, eval=FALSE}
 # install.packages("devtools")
-devtools::install_github("virgesmith/ukboundaries")
+devtools::install_github("robinlovelace/ukboundaries")
+```
+
+## Data sources
+
+An up-to-date list of data sources - each of which typically corresponds to a geographic object representing boundaries of some type - is kept in the file `inst/extdata/data_sources.csv`.
+This system file is installed with the package and can be read at any time, e.g. with:
+
+```{r, message=FALSE}
+f = system.file("extdata", "data_sources.csv", package = "ukboundaries")
+data_sources = readr::read_csv(f)
+```
+
+You can see the contents, e.g. with:
+
+```{r}
+head(data_sources)
 ```
 
 ## Example

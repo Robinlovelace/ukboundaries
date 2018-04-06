@@ -16,7 +16,32 @@ You can install ukboundaries from github with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("virgesmith/ukboundaries")
+devtools::install_github("robinlovelace/ukboundaries")
+```
+
+Data sources
+------------
+
+An up-to-date list of data sources - each of which typically corresponds to a geographic object representing boundaries of some type - is kept in the file `inst/extdata/data_sources.csv`. This system file is installed with the package and can be read at any time, e.g. with:
+
+``` r
+f = system.file("extdata", "data_sources.csv", package = "ukboundaries")
+data_sources = readr::read_csv(f)
+```
+
+You can see the contents, e.g. with:
+
+``` r
+head(data_sources)
+#> # A tibble: 6 x 6
+#>   Coverage Geography Type       Detail                  IdColumn URI      
+#>   <chr>    <chr>     <chr>      <chr>                   <chr>    <chr>    
+#> 1 EW       LAD15     Boundaries FullClipped             lad15cd  https://…
+#> 2 GB       LAD16     Boundaries UltraGeneralisedClipped lad16cd  https://…
+#> 3 GB       LAD16     Boundaries SuperGeneralisedClipped lad16cd  https://…
+#> 4 UK       WD16      Boundaries FullClipped             wd16cd   https://…
+#> 5 EW       MSOA11    Centroids  PopulationWeighted      msoa11cd https://…
+#> 6 EW       MSOA11    Boundaries SuperGeneralisedClipped msoa11cd https://…
 ```
 
 Example
