@@ -14,13 +14,13 @@ package_env <- new.env()
 
   # load in source data, custom first
   f = system.file("extdata", "data_sources.csv", package = "ukboundaries")
-  data_sources <<- readr::read_csv(f, col_types = cols(
-    Coverage = col_character(),
-    Geography = col_character(),
-    Type = col_character(),
-    Detail = col_character(),
-    IdColumn = col_character(),
-    URI = col_character()
+  data_sources <<- readr::read_csv(f, col_types = readr::cols(
+    Coverage = readr::col_character(),
+    Geography = readr::col_character(),
+    Type = readr::col_character(),
+    Detail = readr::col_character(),
+    IdColumn = readr::col_character(),
+    URI = readr::col_character()
   ))
 
   default_cache <- "~/.ukboundaries/cache"
